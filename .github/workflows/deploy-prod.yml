@@ -1,0 +1,22 @@
+name: Deployment Prod
+
+on:
+  push:
+    branches: main
+
+jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+
+  deploy:
+    uses: riddeclabs/github-actions/.github/workflows/ecs.yaml@v1
+    needs: tests
+    secrets: inherit
+    with:
+      account_number: 702683519923
+      cluster_name: gambling-prod
+      service_name: hamsterpunk-bot-prod
+      image_name: ${{ github.repository }}
+      latest_image_tag: prod
+      slack_channel: deployments-crash-game
+      service_url: https://t.me/HamsterpunkBot

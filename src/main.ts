@@ -4,6 +4,13 @@ import { I18n } from '@grammyjs/i18n';
 import { type I18nFlavor } from '@grammyjs/i18n';
 import LocaleKey from './locale-keys';
 
+if (process.env['SECRETS']) {
+  const secrets = JSON.parse(process.env['SECRETS']) as Record<string, string>;
+  for (const key in secrets) {
+    process.env[key] = secrets[key];
+  }
+}
+
 export type MyContext = Context & I18nFlavor;
 const bot = new Bot<MyContext>(process.env['TELEGRAM_API_TOKEN'] ?? '');
 
