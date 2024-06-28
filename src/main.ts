@@ -21,30 +21,16 @@ const i18n = new I18n<MyContext>({
 });
 bot.use(i18n);
 
-// Set bot description in all supported languages
-// for (const loc of i18n.locales) {
-//   const desc = i18n.translate(loc, LocaleKey.GREETING);
-//   await bot.api.setMyDescription(desc, { language_code: loc });
-// }
-
 // Setup bot commands and menus
-const IMAGE_BANNER = process.env['IMAGE_BANNER'] ?? '';
-bot.command('start', async (ctx) => {
-  try {
-    await ctx.replyWithPhoto(IMAGE_BANNER, {
-      caption: ctx.t(LocaleKey.GREETING),
-      parse_mode: 'HTML',
-    });
-  } catch {
-    // Fallback send without photo
-    await ctx.reply(ctx.t(LocaleKey.GREETING), {
-      parse_mode: 'HTML',
-    });
-  }
+// const IMAGE_BANNER = process.env['IMAGE_BANNER'] ?? '';
+
+bot.command("start", async (ctx) => {
+  await ctx.replyWithGame("Hamsterpunk");
 });
-await bot.api.setMyCommands([
-  { command: 'start', description: 'Start the bot' },
-]);
+
+bot.on("callback_query:game_short_name", async (ctx) => {
+  await ctx.answerCallbackQuery({ url: "https://game.hamsterpunk.net/" });
+});
 
 // Photo upload handler
 const BOT_ADMIN = Number(process.env['BOT_ADMIN_ID']);
