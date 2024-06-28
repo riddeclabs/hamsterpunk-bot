@@ -2,7 +2,6 @@ import { Bot, Context } from 'grammy';
 import { I18n } from '@grammyjs/i18n';
 
 import { type I18nFlavor } from '@grammyjs/i18n';
-import LocaleKey from './locale-keys';
 
 if (process.env['SECRETS']) {
   const secrets = JSON.parse(process.env['SECRETS']) as Record<string, string>;
